@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: quickbite-backend
+    env: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    autoDeploy: true
+    healthCheckPath: /
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+
+  - type: static_site
+    name: quickbite-frontend
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    publishPath: dist
+    autoDeploy: true
+    envVars:
+      - key: VITE_API_URL
+        sync: false
